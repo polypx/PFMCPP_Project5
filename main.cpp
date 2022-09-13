@@ -175,33 +175,33 @@ struct ControlRoom
 
     int length, width, height, numberSeats;
     bool studioPowerState; 
-    std::string monitorBrand;
+    std::string name, monitorBrand;
     
     int  hoursInBudget(int engineerRate, int studioRate, int budget);
     void seatEngineer(std::string engineerName);
-    bool switchStudioPower(); // returns state of studio power
+    bool switchStudioPower(); 
 
     struct Computer
     {
         Computer();
         ~Computer();
     
-        std::string brand = "Apple";                // in CLASS initialisation
+        std::string brand = "Apple";                
         int CPUspeed = 3200;  
         int RAMsize = 64;
         int age = 2;
         int price = 2400;
         bool powerState = false; 
     
-        bool switchOnOff(); // returns current power state
-        std::string runSoftware(std::string applicationName); // return app name
+        bool switchOnOff(); 
+        std::string runSoftware(std::string applicationName); 
         int hoursTillComputerCrash(bool runningProTools);
     };
         
 };
 
 ControlRoom::ControlRoom()
-: length(15), width(9), height(2), numberSeats(3), studioPowerState(false), monitorBrand("ATC")
+: length(15), width(9), height(2), numberSeats(3), studioPowerState(false), name("Control Room A"), monitorBrand("ATC")
 {
     std::cout << "ControlRoom being constructed." << std::endl;
 }
@@ -229,7 +229,7 @@ int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
     while (cost <= budget)
     {
         ++hours;
-        cost = hours*engineerRate + hours*studioRate;
+        cost = (hours * engineerRate) + (hours * studioRate);
     } 
     std::cout << "You have " << hours << " hours in your budget." << std::endl;
     return hours;
@@ -316,7 +316,7 @@ struct LiveRoom
     std::string wallMaterial = "cloth";
     std::string floorMaterial = "wood";
     bool lightsCurrentState = false; 
-    std::string studioName = "Studio A";
+    std::string name = "Studio A";
 
     struct Musician
     {
@@ -327,8 +327,8 @@ struct LiveRoom
         int yearsExperience, hourlyRate;
 
         void callMusician();
-        bool createContract(); // returns contract created or not
-        int totalHoursUnpaid(); // returns total hours not yet paid
+        bool createContract();
+        int totalHoursUnpaid(); 
     };
 
     void seatMusician(Musician musicianName, std::string thisName);
@@ -405,6 +405,44 @@ bool LiveRoom::switchLights()
  new UDT 4:
  with 2 member functions
  */
+struct StudioComplex
+{
+    StudioComplex();
+    ~StudioComplex();
+
+    ControlRoom controlRoomA;
+    ControlRoom controlRoomB;
+    LiveRoom liveRoomA;
+    LiveRoom liveRoomB;
+
+    int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours);
+    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate); 
+};
+
+StudioComplex::StudioComplex() 
+{
+    std::cout << "Studio Complex being constructed." << std::endl; 
+}    
+
+StudioComplex::~StudioComplex() 
+{
+    std::cout << "Studio Complex being deconstructed." << std::endl; 
+}    
+
+int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours)
+{
+    std::cout <<  "Booking " << controlRoom.name << " with " << liveRoom.name << " for " << hours << " hours" << std::endl; 
+    return hours;
+}
+
+int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate)
+{
+    int cost = hours * rate;
+    std::cout << controlRoom.name << " with " << liveRoom.name << " fee is " << cost << " dollars" << std::endl; 
+    return cost;
+}
+
+
 
 /*
  new UDT 5:
@@ -432,7 +470,7 @@ int main()
     toronto.expand();
     toronto.createLaw();
     City::PoliceDepartment torontoPoliceDepartment;
-    std::cout << "This population will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)   << " in 5 years." << std::endl;
+    std::cout << "The population will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)   << " in 5 years." << std::endl;
     torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
     torontoPoliceDepartment.trainRookies(7, 3);
 
@@ -447,7 +485,12 @@ int main()
     studioA.calculateMusicianFee(31, false);
     studioA.switchLights();
 
-
+    StudioComplex Olympic;
+    Olympic.controlRoomB.name = "Control Room B";
+    Olympic.liveRoomB.name = "Live Room B";
+    Olympic.bookSession(Olympic.controlRoomA, Olympic.liveRoomB, 10);
+    Olympic.prepareInvoice(Olympic.controlRoomB, Olympic.liveRoomA, 10, 76);
+    
     
     std::cout << "good to go!" << std::endl;
 }
