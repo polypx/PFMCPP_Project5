@@ -343,7 +343,7 @@ LiveRoom::LiveRoom()
 
 LiveRoom::~LiveRoom()
 {
-    std::cout << "LiveRoom being constructed." << std::endl;
+    std::cout << "LiveRoom being deconstructed." << std::endl;
 }
 
 LiveRoom::Musician::Musician() : name("John"), mainInstrument("Piano"), yearsExperience(10), hourlyRate(75)
@@ -417,7 +417,8 @@ struct StudioComplex
     LiveRoom liveRoomB;
 
     int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours);
-    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate); 
+    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate);
+    void placeAdvertisement(std::string text); 
 };
 
 StudioComplex::StudioComplex() 
@@ -428,6 +429,7 @@ StudioComplex::StudioComplex()
 StudioComplex::~StudioComplex() 
 {
     std::cout << "Studio Complex being deconstructed." << std::endl; 
+    StudioComplex::placeAdvertisement("ADVERTISEMENT: STUDIO FOR SALE!!!!");
 }    
 
 int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours)
@@ -443,7 +445,10 @@ int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, in
     return cost;
 }
 
-
+void StudioComplex::placeAdvertisement(std::string text)
+{
+    std::cout << text << std::endl; 
+}
 
 /*
  new UDT 5:
