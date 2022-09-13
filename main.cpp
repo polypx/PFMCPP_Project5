@@ -438,9 +438,16 @@ int main()
 
     ControlRoom factory;    
     ControlRoom::Computer mainMacintosh;  
-
+    factory.hoursInBudget(75, 60, 5000);
+    mainMacintosh.hoursTillComputerCrash(true);    
+    
     LiveRoom studioA;    
-    LiveRoom::Musician charles;  
+    LiveRoom::Musician tony;  
+    studioA.seatMusician(tony, "Tony");
+    studioA.calculateMusicianFee(31, false);
+    studioA.switchLights();
+
+
     
     std::cout << "good to go!" << std::endl;
 }
