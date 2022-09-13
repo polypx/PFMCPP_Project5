@@ -70,18 +70,299 @@ write 3 UDTs below that EACH have:
  You will use those in Part 3 of this project.
 
  */
+#include <iostream>
 
 /*
  copied UDT 1:
  */
 
+struct City
+{
+    std::string name = "Toronto";                   // in CLASS initialisation
+    std::string country = "Canada";
+    std::string newLawName = "Friday's Off";
+    int population = 5000000;
+    float latitude = 43.6532f;    
+    float longitude = -79.3470f;  
+
+    City();
+
+    void expand(float expansionRate = 1.1f);
+    std::string createLaw(); 
+    int updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years);  
+
+    struct PoliceDepartment
+    {
+        PoliceDepartment();
+        ~PoliceDepartment();
+
+        int staff, budget, fleet;
+        float crimerate;
+        std::string chief;
+
+        void convictCriminals(int arrests, int convictions);
+        void trainRookies(int rookies, int monthsTraining);
+        void retireBadApples(int badApples);
+    };
+};
+
+City::City()
+{
+    std::cout << "City being constructed." << std::endl;
+}
+
+void City::expand(float expansionRate)
+{
+    if(expansionRate < 0.f)
+    {
+        std::cout << "we're shrinking!" << std::endl;    
+    } 
+}
+
+std::string City::createLaw()
+{
+  return newLawName;  
+}
+
+int City::updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years)
+{
+    for(int i = 0; i <= years; ++i)
+    {
+        population = population + immigrantsYear - emigrantsYear + birthsYear - deathsYear;
+    }    
+    return population;
+}
+
+
 /*
  copied UDT 2:
  */
 
+struct ControlRoom
+{
+    ControlRoom();
+
+    int length, width, height, numberSeats;
+    bool studioPowerState; 
+    std::string monitorBrand;
+    
+    int  hoursInBudget(int engineerRate, int studioRate, int budget);
+    void seatEngineer(std::string engineerName);
+    bool switchStudioPower(); // returns state of studio power
+
+    struct Computer
+    {
+        Computer();
+    
+        std::string brand = "Apple";                // in CLASS initialisation
+        int CPUspeed = 3200;  
+        int RAMsize = 64;
+        int age = 2;
+        int price = 2400;
+        bool powerState = false; 
+    
+        bool switchOnOff(); // returns current power state
+        std::string runSoftware(std::string applicationName); // return app name
+        int hoursTillComputerCrash(bool runningProTools);
+    };
+        
+};
+
+ControlRoom::ControlRoom()
+: length(15), width(9), height(2), numberSeats(3), studioPowerState(false), monitorBrand("ATC")
+{
+    std::cout << "ControlRoom being constructed." << std::endl;
+}
+
+int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
+{
+    int hours = 0;
+    int cost = 0;
+    while (cost <= budget)
+    {
+        ++hours;
+        cost = hours*engineerRate + hours*studioRate;
+    } 
+    std::cout << "You have " << hours << " hours in your budget." << std::endl;
+    return hours;
+} 
+
+
+void ControlRoom::seatEngineer(std::string engineerName)
+{
+    std::cout << "Today we're enjoying the mixing skills of " << engineerName << std::endl;      
+}
+
+bool ControlRoom::switchStudioPower()
+{
+    studioPowerState = !studioPowerState;
+    if (studioPowerState)
+    {
+        std::cout << "Studio power is ON. "  << std::endl;       
+    }
+    else
+    {
+        std::cout << "Studio power is OFF. "  << std::endl; 
+    }    
+    return studioPowerState;
+}
+
+ControlRoom::Computer::Computer()
+{
+    std::cout << "Computer being constructed." << std::endl;
+}
+
+int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
+{
+    int hours = 0;
+    float heat = 1.1f;
+    float numberOfPlugins = 1.f;
+    float willCrash = 0.3f;
+    while(willCrash < 1.0f )
+    {
+        willCrash = willCrash * heat * numberOfPlugins;
+        numberOfPlugins = numberOfPlugins * 1.2f;
+        
+        if (runningProTools == true)
+        {
+            heat = heat * 1.15f;
+        }
+        else
+        {
+            heat = heat * 1.07f;
+        }    
+
+        ++hours;
+    } 
+    std::cout << "Computer will crash in " << hours << " hours." << std::endl;
+    return hours;
+}
+
+bool ControlRoom::Computer::switchOnOff()
+{
+    powerState = !powerState;
+    if (powerState)
+    {
+        std::cout << "The computer is currently on."  << std::endl; 
+    } 
+    else
+    {
+        std::cout << "The computer is currently off."  << std::endl; 
+    }    
+    return powerState;
+}
+
+std::string ControlRoom::Computer::runSoftware(std::string programName)
+{
+    return programName;
+}
+
 /*
  copied UDT 3:
  */
+
+
+struct LiveRoom
+{
+    LiveRoom();                                // in  CLASS initialisation 
+
+    int length = 26;
+    int width = 19;
+    int height = 4;
+    std::string wallMaterial = "cloth";
+    std::string floorMaterial = "wood";
+    bool lightsCurrentState = false; 
+    std::string studioName = "Studio A";
+
+    struct Musician
+    {
+        std::string name, mainInstrument;
+        int yearsExperience, hourlyRate;
+
+        Musician() : name("John"), mainInstrument("Piano"), yearsExperience(10), hourlyRate(75) {}
+
+        void callMusician();
+        bool createContract(); // returns contract created or not
+        int totalHoursUnpaid(); // returns total hours not yet paid
+    };
+
+
+    struct Equipment
+    {
+        std::string instrument1, instrument2, instrument3;
+
+        Equipment() : instrument1("Piano"), instrument2("Guitar"), instrument3("Drums")  {}
+
+        void tunePiano(); 
+        bool switchHammond(); 
+        bool enableSnaresOnSnareDrum(); 
+
+    };
+
+
+
+    void seatMusician(Musician musicianName, std::string thisName);
+    void placeEquipment(Equipment steinwayPiano);
+    bool switchLights(); 
+    int calculateMusicianFee(int hours, bool receivesPublishingPercentage);
+};
+
+LiveRoom::LiveRoom()
+{
+    std::cout << "LiveRoom being constructed." << std::endl;
+}
+
+int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
+{
+    int musicianFee = 0;    
+    for (int i = 0; i <= hours; ++i)
+    {
+        if(receivesPublishingPercentage == true)
+        {
+            musicianFee += 45;
+                // no overtime fee if receiving album points
+        }
+        else
+        {
+            musicianFee += 115;
+            if(i % 10 == 0)
+            {
+                musicianFee += 30; // overtime fee
+            }                
+        }    
+    }
+    std::cout << "He is charging $" << musicianFee << " for this session." << std::endl;   
+    return musicianFee;
+}
+
+void LiveRoom::seatMusician(Musician musicianName, std::string thisName)
+{
+    musicianName.name = thisName;
+    std::cout << "Today we're enjoying the dulcet tones of " << musicianName.name  << std::endl;    
+}
+
+
+void LiveRoom::placeEquipment(Equipment instrumentType)
+{
+    std::cout << "We have taken delivery of a " << instrumentType.instrument1  << std::endl;     
+}
+
+bool LiveRoom::switchLights()
+{
+    lightsCurrentState = !lightsCurrentState;
+    if (lightsCurrentState)
+    {
+        std::cout << "The lights are currently on."  << std::endl; 
+    } 
+    else
+    {
+        std::cout << "The lights are currently off."  << std::endl; 
+    }
+    
+    return lightsCurrentState;
+    
+}
+
 
 /*
  new UDT 4:
@@ -107,8 +388,14 @@ write 3 UDTs below that EACH have:
  Wait for my code review.
  */
 
-#include <iostream>
+
 int main()
 {
+    City toronto;         
+    toronto.expand();
+    toronto.createLaw();
+    std::cout << "This population of the city will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)  << " in 5 years." << std::endl;
+
+    
     std::cout << "good to go!" << std::endl;
 }
