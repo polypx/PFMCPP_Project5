@@ -429,7 +429,7 @@ StudioComplex::StudioComplex()
 StudioComplex::~StudioComplex() 
 {
     std::cout << "Studio Complex being deconstructed." << std::endl; 
-    StudioComplex::placeAdvertisement("ADVERTISEMENT: STUDIO FOR SALE!!!!");
+    placeAdvertisement("ADVERTISEMENT: STUDIO FOR SALE!!!!");
 }    
 
 int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours)
@@ -482,22 +482,22 @@ LargestFiveCities::~LargestFiveCities()
 
 void LargestFiveCities::setNames(std::string a, std::string b, std::string c, std::string d, std::string e)
 {
-    LargestFiveCities::cityA.name = a;
-    LargestFiveCities::cityB.name = b;
-    LargestFiveCities::cityC.name = c;
-    LargestFiveCities::cityD.name = d;
-    LargestFiveCities::cityE.name = e;
+    cityA.name = a;
+    cityB.name = b;
+    cityC.name = c;
+    cityD.name = d;
+    cityE.name = e;
 
     std::cout << "The largest cities are " << a << ", " << b << ", " << c << ", " << d << ", and " << e << "." << std::endl; 
 }
 
 int LargestFiveCities::setPopulations(int a, int b, int c, int d, int e)
 {
-    LargestFiveCities::cityA.population = a;
-    LargestFiveCities::cityB.population = b;
-    LargestFiveCities::cityC.population = c;
-    LargestFiveCities::cityD.population = d;
-    LargestFiveCities::cityE.population = e;
+    cityA.population = a;
+    cityB.population = b;
+    cityC.population = c;
+    cityD.population = d;
+    cityE.population = e;
 
     std::cout << "Combined population is " << a + b + c + d + e << std::endl; 
     return a + b + c + d + e; 
