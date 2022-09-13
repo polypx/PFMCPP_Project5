@@ -405,6 +405,7 @@ bool LiveRoom::switchLights()
  new UDT 4:
  with 2 member functions
  */
+
 struct StudioComplex
 {
     StudioComplex();
@@ -449,6 +450,55 @@ int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, in
  with 2 member functions
  */
 
+struct LargestFiveCities
+{
+    LargestFiveCities();
+    ~LargestFiveCities();
+
+    City cityA;
+    City cityB;
+    City cityC;
+    City cityD;
+    City cityE;
+
+    void setNames(std::string a, std::string b, std::string c, std::string d, std::string e);
+    int setPopulations(int a, int b, int c, int d, int e);
+};
+
+LargestFiveCities::LargestFiveCities() 
+{
+    std::cout << "LargestFiveCities being constructed." << std::endl; 
+}    
+
+LargestFiveCities::~LargestFiveCities() 
+{
+    std::cout << "LargestFiveCities being deconstructed." << std::endl; 
+}    
+
+void LargestFiveCities::setNames(std::string a, std::string b, std::string c, std::string d, std::string e)
+{
+    LargestFiveCities::cityA.name = a;
+    LargestFiveCities::cityB.name = b;
+    LargestFiveCities::cityC.name = c;
+    LargestFiveCities::cityD.name = d;
+    LargestFiveCities::cityE.name = e;
+
+    std::cout << "The largest cities are " << a << ", " << b << ", " << c << ", " << d << ", and " << e << "." << std::endl; 
+}
+
+int LargestFiveCities::setPopulations(int a, int b, int c, int d, int e)
+{
+    LargestFiveCities::cityA.population = a;
+    LargestFiveCities::cityB.population = b;
+    LargestFiveCities::cityC.population = c;
+    LargestFiveCities::cityD.population = d;
+    LargestFiveCities::cityE.population = e;
+
+    std::cout << "Combined population is " << a + b + c + d + e << std::endl; 
+    return a + b + c + d + e; 
+}
+
+
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -491,6 +541,9 @@ int main()
     Olympic.bookSession(Olympic.controlRoomA, Olympic.liveRoomB, 10);
     Olympic.prepareInvoice(Olympic.controlRoomB, Olympic.liveRoomA, 10, 76);
     
+    LargestFiveCities largestCanadianCities;
+    largestCanadianCities.setNames("Vancouver", "Toronto", "Montreal", "Calgary", "Ottawa");
+    largestCanadianCities.setPopulations(2632000, 6313000, 4291732, 1484806, 1488307);
     
     std::cout << "good to go!" << std::endl;
 }
