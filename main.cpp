@@ -104,8 +104,6 @@ struct City
         void trainRookies(int rookies, int monthsTraining);
         int checkStaffCost(int numberStaff, int monthlySalary);
     };
-
-    
 };
 
 City::City() : name("Montreal"), country("Canada"), population(5000000)
@@ -161,7 +159,7 @@ void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
 {
     for (int i = 1; i <= monthsTraining; ++i)
     {
-        std::cout << i*rookies << " combined months of rookie training costs." << std::endl;
+        std::cout << i * rookies << " combined months of training costs." << std::endl;
     }    
 }
 
@@ -422,10 +420,10 @@ int main()
     toronto.expand();
     toronto.createLaw();
     City::PoliceDepartment torontoPoliceDepartment;
-    std::cout << "This population of the city will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)  
-                                                        << " in 5 years." << std::endl;
+    std::cout << "This population will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)   << " in 5 years." << std::endl;
     torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
     torontoPoliceDepartment.trainRookies(7, 3);
+
     
     std::cout << "good to go!" << std::endl;
 }
