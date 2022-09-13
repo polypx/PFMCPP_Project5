@@ -78,14 +78,14 @@ write 3 UDTs below that EACH have:
 
 struct City
 {
-    std::string name = "Toronto";                   // in CLASS initialisation
-    std::string country = "Canada";
+    City();
+    ~City();
+
+    std::string name, country;
     std::string newLawName = "Friday's Off";
     int population = 5000000;
     float latitude = 43.6532f;    
     float longitude = -79.3470f;  
-
-    City();
 
     void expand(float expansionRate = 1.1f);
     std::string createLaw(); 
@@ -96,20 +96,38 @@ struct City
         PoliceDepartment();
         ~PoliceDepartment();
 
-        int staff, budget, fleet;
-        float crimerate;
-        std::string chief;
+        int staff, budgetMillions, salary;
+        float crimeRate = 0.f;
+        std::string chief = "unnamedPoliceChief";
 
-        void convictCriminals(int arrests, int convictions);
+        float getConvictionRate(float arrests, float convictions);
         void trainRookies(int rookies, int monthsTraining);
-        void retireBadApples(int badApples);
+        int checkStaffCost(int numberStaff, int monthlySalary);
     };
+
+    
 };
 
-City::City()
+City::City() : name("Montreal"), country("Canada"), population(5000000)
 {
     std::cout << "City being constructed." << std::endl;
 }
+
+City::~City()
+{
+    std::cout << "City being deconstructed." << std::endl;
+}
+
+City::PoliceDepartment::PoliceDepartment() : staff(4500), budgetMillions(500), salary(85000)
+{
+    std::cout << "PoliceDepartment being constructed." << std::endl;
+}
+
+City::PoliceDepartment::~PoliceDepartment() 
+{
+    std::cout << "PoliceDepartment being deconstructed." << std::endl;
+}
+
 
 void City::expand(float expansionRate)
 {
@@ -131,6 +149,20 @@ int City::updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear
         population = population + immigrantsYear - emigrantsYear + birthsYear - deathsYear;
     }    
     return population;
+}
+
+float City::PoliceDepartment::getConvictionRate(float arrests, float convictions)
+{
+    std::cout << convictions / arrests << " is the conviction rate." << std::endl;
+    return convictions / arrests;
+}
+
+void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
+{
+    for (int i = 1; i <= monthsTraining; ++i)
+    {
+        std::cout << i*rookies << " combined months of rookie training costs." << std::endl;
+    }    
 }
 
 
@@ -286,7 +318,6 @@ struct LiveRoom
         int totalHoursUnpaid(); // returns total hours not yet paid
     };
 
-
     struct Equipment
     {
         std::string instrument1, instrument2, instrument3;
@@ -298,8 +329,6 @@ struct LiveRoom
         bool enableSnaresOnSnareDrum(); 
 
     };
-
-
 
     void seatMusician(Musician musicianName, std::string thisName);
     void placeEquipment(Equipment steinwayPiano);
@@ -319,8 +348,7 @@ int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
     {
         if(receivesPublishingPercentage == true)
         {
-            musicianFee += 45;
-                // no overtime fee if receiving album points
+            musicianFee += 45;     // no overtime fee 
         }
         else
         {
@@ -360,7 +388,6 @@ bool LiveRoom::switchLights()
     }
     
     return lightsCurrentState;
-    
 }
 
 
@@ -394,8 +421,11 @@ int main()
     City toronto;         
     toronto.expand();
     toronto.createLaw();
-    std::cout << "This population of the city will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)  << " in 5 years." << std::endl;
-
+    City::PoliceDepartment torontoPoliceDepartment;
+    std::cout << "This population of the city will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)  
+                                                        << " in 5 years." << std::endl;
+    torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
+    torontoPoliceDepartment.trainRookies(7, 3);
     
     std::cout << "good to go!" << std::endl;
 }
