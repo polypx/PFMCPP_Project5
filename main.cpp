@@ -171,6 +171,7 @@ void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
 struct ControlRoom
 {
     ControlRoom();
+    ~ControlRoom();
 
     int length, width, height, numberSeats;
     bool studioPowerState; 
@@ -183,6 +184,7 @@ struct ControlRoom
     struct Computer
     {
         Computer();
+        ~Computer();
     
         std::string brand = "Apple";                // in CLASS initialisation
         int CPUspeed = 3200;  
@@ -203,6 +205,22 @@ ControlRoom::ControlRoom()
 {
     std::cout << "ControlRoom being constructed." << std::endl;
 }
+
+ControlRoom::~ControlRoom()
+{
+    std::cout << "ControlRoom being deconstructed." << std::endl;
+}    
+
+ControlRoom::Computer::Computer() : powerState(true)
+{
+    std::cout << "Computer being constructed." << std::endl;
+}
+
+ControlRoom::Computer::~Computer() 
+{
+    std::cout << "Computer being deconstructed." << std::endl;
+}
+
 
 int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
 {
@@ -235,11 +253,6 @@ bool ControlRoom::switchStudioPower()
         std::cout << "Studio power is OFF. "  << std::endl; 
     }    
     return studioPowerState;
-}
-
-ControlRoom::Computer::Computer()
-{
-    std::cout << "Computer being constructed." << std::endl;
 }
 
 int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
@@ -294,7 +307,8 @@ std::string ControlRoom::Computer::runSoftware(std::string programName)
 
 struct LiveRoom
 {
-    LiveRoom();                                // in  CLASS initialisation 
+    LiveRoom();                               
+    ~LiveRoom();    
 
     int length = 26;
     int width = 19;
@@ -306,30 +320,18 @@ struct LiveRoom
 
     struct Musician
     {
+        Musician();                               
+        ~Musician();   
+
         std::string name, mainInstrument;
         int yearsExperience, hourlyRate;
-
-        Musician() : name("John"), mainInstrument("Piano"), yearsExperience(10), hourlyRate(75) {}
 
         void callMusician();
         bool createContract(); // returns contract created or not
         int totalHoursUnpaid(); // returns total hours not yet paid
     };
 
-    struct Equipment
-    {
-        std::string instrument1, instrument2, instrument3;
-
-        Equipment() : instrument1("Piano"), instrument2("Guitar"), instrument3("Drums")  {}
-
-        void tunePiano(); 
-        bool switchHammond(); 
-        bool enableSnaresOnSnareDrum(); 
-
-    };
-
     void seatMusician(Musician musicianName, std::string thisName);
-    void placeEquipment(Equipment steinwayPiano);
     bool switchLights(); 
     int calculateMusicianFee(int hours, bool receivesPublishingPercentage);
 };
@@ -337,6 +339,21 @@ struct LiveRoom
 LiveRoom::LiveRoom()
 {
     std::cout << "LiveRoom being constructed." << std::endl;
+}
+
+LiveRoom::~LiveRoom()
+{
+    std::cout << "LiveRoom being constructed." << std::endl;
+}
+
+LiveRoom::Musician::Musician() : name("John"), mainInstrument("Piano"), yearsExperience(10), hourlyRate(75)
+{
+    std::cout << "Musician being constructed." << std::endl;
+}
+
+LiveRoom::Musician::~Musician() 
+{
+    std::cout << "Musician being deconstructed." << std::endl;
 }
 
 int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
@@ -367,11 +384,6 @@ void LiveRoom::seatMusician(Musician musicianName, std::string thisName)
     std::cout << "Today we're enjoying the dulcet tones of " << musicianName.name  << std::endl;    
 }
 
-
-void LiveRoom::placeEquipment(Equipment instrumentType)
-{
-    std::cout << "We have taken delivery of a " << instrumentType.instrument1  << std::endl;     
-}
 
 bool LiveRoom::switchLights()
 {
@@ -424,6 +436,11 @@ int main()
     torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
     torontoPoliceDepartment.trainRookies(7, 3);
 
+    ControlRoom factory;    
+    ControlRoom::Computer mainMacintosh;  
+
+    LiveRoom studioA;    
+    LiveRoom::Musician charles;  
     
     std::cout << "good to go!" << std::endl;
 }
