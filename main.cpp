@@ -151,8 +151,10 @@ int City::updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear
 
 float City::PoliceDepartment::getConvictionRate(float arrests, float convictions)
 {
-    std::cout << convictions / arrests << " is the conviction rate." << std::endl;
-    return convictions / arrests;
+    float convictionRate;
+    convictionRate = convictions / arrests;
+    std::cout << convictionRate << " is the conviction rate." << std::endl;
+    return convictionRate;
 }
 
 void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
@@ -244,14 +246,9 @@ void ControlRoom::seatEngineer(std::string engineerName)
 bool ControlRoom::switchStudioPower()
 {
     studioPowerState = !studioPowerState;
-    if (studioPowerState)
-    {
-        std::cout << "Studio power is ON. "  << std::endl;       
-    }
-    else
-    {
-        std::cout << "Studio power is OFF. "  << std::endl; 
-    }    
+
+    std::cout << "The studio is currently " << (studioPowerState ? "on." : "off.") << std::endl; 
+
     return studioPowerState;
 }
 
@@ -284,14 +281,9 @@ int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
 bool ControlRoom::Computer::switchOnOff()
 {
     powerState = !powerState;
-    if (powerState)
-    {
-        std::cout << "The computer is currently on."  << std::endl; 
-    } 
-    else
-    {
-        std::cout << "The computer is currently off."  << std::endl; 
-    }    
+
+    std::cout << "The computer is currently " << (powerState ? "on." : "off.") << std::endl; 
+
     return powerState;
 }
 
@@ -388,14 +380,8 @@ void LiveRoom::seatMusician(Musician musicianName, std::string thisName)
 bool LiveRoom::switchLights()
 {
     lightsCurrentState = !lightsCurrentState;
-    if (lightsCurrentState)
-    {
-        std::cout << "The lights are currently on."  << std::endl; 
-    } 
-    else
-    {
-        std::cout << "The lights are currently off."  << std::endl; 
-    }
+
+    std::cout << "The lights are currently " << (lightsCurrentState ? "on." : "off.") << std::endl; 
     
     return lightsCurrentState;
 }
@@ -493,14 +479,18 @@ void LargestFiveCities::setNames(std::string a, std::string b, std::string c, st
 
 int LargestFiveCities::setPopulations(int a, int b, int c, int d, int e)
 {
+    int sum;
+    
     cityA.population = a;
     cityB.population = b;
     cityC.population = c;
     cityD.population = d;
     cityE.population = e;
 
-    std::cout << "Combined population is " << a + b + c + d + e << std::endl; 
-    return a + b + c + d + e; 
+    sum = a + b + c + d + e; 
+    
+    std::cout << "Combined population is " << sum << std::endl; 
+    return sum;
 }
 
 
@@ -538,6 +528,7 @@ int main()
     LiveRoom::Musician tony;  
     studioA.seatMusician(tony, "Tony");
     studioA.calculateMusicianFee(31, false);
+    studioA.switchLights();
     studioA.switchLights();
 
     StudioComplex Olympic;
