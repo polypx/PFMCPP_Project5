@@ -137,7 +137,7 @@ City::PoliceDepartment::~PoliceDepartment()
 
 void City::aboutCity()
 {
-    std::cout << "The city named " << this -> name << " has a population of " << this -> population << std::endl;
+    std::cout << "The city named " << this->name << " has a population of " << this->population << std::endl;
 }
 
 void City::expand(float expansionRate)
@@ -179,7 +179,7 @@ void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
 
 void City::PoliceDepartment::aboutPolice()
 {
-    std::cout << "The police have " << this -> staff << " staff, and a chief named " << this -> chief  << std::endl;
+    std::cout << "The police have " << this->staff << " staff, and a chief named " << this->chief  << std::endl;
 }
 
 
@@ -246,7 +246,7 @@ ControlRoom::Computer::~Computer()
 
 void ControlRoom::aboutControlRoom()
 {
-    std::cout << "This control room has " << this -> numberSeats << " seats." << std::endl;
+    std::cout << "This control room has " << this->numberSeats << " seats." << std::endl;
 }
 
 int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
@@ -303,7 +303,7 @@ int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
 
 void ControlRoom::Computer::aboutComputer()
 {
-    std::cout << "This computer is made by " << this -> brand << std::endl;
+    std::cout << "This computer is made by " << this->brand << std::endl;
 }
 
 
@@ -381,7 +381,7 @@ LiveRoom::Musician::~Musician()
 
 void LiveRoom::aboutLiveRoom()
 {
-    std::cout << "This live room is called " << this -> name << std::endl;
+    std::cout << "This live room is called " << this->name << std::endl;
 }
 
 int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
@@ -422,7 +422,7 @@ bool LiveRoom::switchLights()
 
 void LiveRoom::Musician::aboutMusician()
 {
-    std::cout << "This musician is named " << this -> name << std::endl;
+    std::cout << "This musician is named " << this->name << std::endl;
 }
 
 /*
