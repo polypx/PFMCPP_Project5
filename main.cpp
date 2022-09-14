@@ -96,6 +96,8 @@ struct City
     std::string createLaw(); 
     int updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years);  
 
+    void aboutCity();
+
     struct PoliceDepartment
     {
         PoliceDepartment();
@@ -108,6 +110,8 @@ struct City
         float getConvictionRate(float arrests, float convictions);
         void trainRookies(int rookies, int monthsTraining);
         int checkStaffCost(int numberStaff, int monthlySalary);
+
+        void aboutPolice();
     };
 };
 
@@ -131,6 +135,10 @@ City::PoliceDepartment::~PoliceDepartment()
     std::cout << "PoliceDepartment being deconstructed." << std::endl;
 }
 
+void City::aboutCity()
+{
+    std::cout << "The city named " << this->name << " has a population of " << this->population << std::endl;
+}
 
 void City::expand(float expansionRate)
 {
@@ -169,6 +177,11 @@ void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
     }    
 }
 
+void City::PoliceDepartment::aboutPolice()
+{
+    std::cout << "The police have " << this->staff << " staff, and a chief named " << this->chief  << std::endl;
+}
+
 
 /*
  copied UDT 2:
@@ -187,6 +200,8 @@ struct ControlRoom
     void seatEngineer(std::string engineerName);
     bool switchStudioPower(); 
 
+    void aboutControlRoom();
+
     struct Computer
     {
         Computer();
@@ -202,6 +217,8 @@ struct ControlRoom
         bool switchOnOff(); 
         std::string runSoftware(std::string applicationName); 
         int hoursTillComputerCrash(bool runningProTools);
+
+        void aboutComputer();
     };
         
 };
@@ -227,6 +244,10 @@ ControlRoom::Computer::~Computer()
     std::cout << "Computer being deconstructed." << std::endl;
 }
 
+void ControlRoom::aboutControlRoom()
+{
+    std::cout << "This control room has " << this->numberSeats << " seats." << std::endl;
+}
 
 int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
 {
@@ -280,6 +301,12 @@ int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
     return hours;
 }
 
+void ControlRoom::Computer::aboutComputer()
+{
+    std::cout << "This computer is made by " << this->brand << std::endl;
+}
+
+
 bool ControlRoom::Computer::switchOnOff()
 {
     powerState = !powerState;
@@ -310,6 +337,8 @@ struct LiveRoom
     bool lightsCurrentState = false; 
     std::string name = "Studio A";
 
+    void aboutLiveRoom();
+
     struct Musician
     {
         Musician();                               
@@ -318,11 +347,13 @@ struct LiveRoom
         std::string name, mainInstrument;
         int yearsExperience, hourlyRate;
 
+        void aboutMusician();
         void callMusician();
         bool createContract();
         int totalHoursUnpaid(); 
     };
 
+    
     void seatMusician(Musician musicianName, std::string thisName);
     bool switchLights(); 
     int calculateMusicianFee(int hours, bool receivesPublishingPercentage);
@@ -346,6 +377,11 @@ LiveRoom::Musician::Musician() : name("John"), mainInstrument("Piano"), yearsExp
 LiveRoom::Musician::~Musician() 
 {
     std::cout << "Musician being deconstructed." << std::endl;
+}
+
+void LiveRoom::aboutLiveRoom()
+{
+    std::cout << "This live room is called " << this->name << std::endl;
 }
 
 int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
@@ -384,6 +420,10 @@ bool LiveRoom::switchLights()
     return lightsCurrentState;
 }
 
+void LiveRoom::Musician::aboutMusician()
+{
+    std::cout << "This musician is named " << this->name << std::endl;
+}
 
 /*
  new UDT 4:
@@ -506,25 +546,41 @@ int LargestFiveCities::setPopulations(int a, int b, int c, int d, int e)
 
 int main()
 {
-    City toronto;         
+    City toronto;  
     toronto.expand();
     toronto.createLaw();
+    toronto.name = "Toronto";
     City::PoliceDepartment torontoPoliceDepartment;
-    std::cout << "The population will be " <<  toronto.updatePopulation(4000, 1500, 18000, 17000, 5)   << " in 5 years." << std::endl;
     torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
     torontoPoliceDepartment.trainRookies(7, 3);
 
+    std::cout << "The city named " << toronto.name << " has a population of " << toronto.population << std::endl;
+    toronto.aboutCity();
+    std::cout << "The police have " << torontoPoliceDepartment.staff << " staff, and a chief named " << torontoPoliceDepartment.chief  << std::endl;
+    torontoPoliceDepartment.aboutPolice();
+    
+    
     ControlRoom factory;    
     ControlRoom::Computer mainMacintosh;  
     factory.hoursInBudget(75, 60, 5000);
     mainMacintosh.hoursTillComputerCrash(true);    
+
+    std::cout << "This control room has " << factory.numberSeats << " seats." << std::endl;
+    factory.aboutControlRoom();
+    std::cout << "This computer is made by " << mainMacintosh.brand << std::endl;
+    mainMacintosh.aboutComputer();
+
     
     LiveRoom studioA;    
     LiveRoom::Musician tony;  
     studioA.seatMusician(tony, "Tony");
     studioA.calculateMusicianFee(31, false);
     studioA.switchLights();
-    studioA.switchLights();
+
+    std::cout << "This live room is called " << studioA.name << std::endl;
+    studioA.aboutLiveRoom();
+    std::cout << "This musician is named " << tony.name << std::endl;
+    tony.aboutMusician();    
 
     StudioComplex Olympic;
     Olympic.controlRoomB.name = "Control Room B";
