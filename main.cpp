@@ -80,7 +80,7 @@ void Axe::aConstMemberFunction() const { }
 
 
 #include <iostream>
-
+#include "LeakedObjectDetector.h"
 /*
  copied UDT 1:
  */
@@ -117,6 +117,7 @@ struct City
 
         void aboutPolice();
     };
+    JUCE_LEAK_DETECTOR(City)    
 };
 
 City::City() : name("Montreal"), country("Canada"), population(5000000)
@@ -224,7 +225,7 @@ struct ControlRoom
 
         void aboutComputer();
     };
-        
+    JUCE_LEAK_DETECTOR(ControlRoom)     
 };
 
 ControlRoom::ControlRoom()
@@ -361,6 +362,8 @@ struct LiveRoom
     void seatMusician(Musician musicianName, std::string thisName);
     bool switchLights(); 
     int calculateMusicianFee(int hours, bool receivesPublishingPercentage);
+
+    JUCE_LEAK_DETECTOR(LiveRoom)   
 };
 
 LiveRoom::LiveRoom()
@@ -447,6 +450,8 @@ struct StudioComplex
     int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours);
     int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate);
     void placeAdvertisement(std::string text); 
+
+    JUCE_LEAK_DETECTOR(StudioComplex)  
 };
 
 StudioComplex::StudioComplex() 
@@ -496,6 +501,8 @@ struct LargestFiveCities
 
     void setNames(std::string a, std::string b, std::string c, std::string d, std::string e);
     int setPopulations(int a, int b, int c, int d, int e);
+
+    JUCE_LEAK_DETECTOR(StudioComplex)
 };
 
 LargestFiveCities::LargestFiveCities() 
