@@ -78,8 +78,8 @@ void Axe::aConstMemberFunction() const { }
 
 
 
-
 #include <iostream>
+#include "LeakedObjectDetector.h"
 
 /*
  copied UDT 1:
@@ -100,7 +100,7 @@ struct City
     std::string createLaw(); 
     int updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years);  
 
-    void aboutCity();
+    void aboutCity() const;
 
     struct PoliceDepartment
     {
@@ -111,12 +111,24 @@ struct City
         float crimeRate = 0.f;
         std::string chief = "unnamedPoliceChief";
 
-        float getConvictionRate(float arrests, float convictions);
-        void trainRookies(int rookies, int monthsTraining);
-        int checkStaffCost(int numberStaff, int monthlySalary);
+        float getConvictionRate(float arrests, float convictions) const;
+        void trainRookies(int rookies, int monthsTraining) const;
+        int checkStaffCost(int numberStaff, int monthlySalary) const;
 
-        void aboutPolice();
+        void aboutPolice() const;
     };
+
+    JUCE_LEAK_DETECTOR(City)    
+};
+
+struct CityWrapper
+{
+    CityWrapper( City* ptr ) : pointerToCity( ptr ) {}
+    ~CityWrapper()
+    {
+        delete pointerToCity;
+    }
+    City* pointerToCity = nullptr;
 };
 
 City::City() : name("Montreal"), country("Canada"), population(5000000)
@@ -139,12 +151,12 @@ City::PoliceDepartment::~PoliceDepartment()
     std::cout << "PoliceDepartment being deconstructed." << std::endl;
 }
 
-void City::aboutCity()
+void City::aboutCity() const
 {
     std::cout << "The city named " << this->name << " has a population of " << this->population << std::endl;
 }
 
-void City::expand(float expansionRate)
+void City::expand(float expansionRate) 
 {
     if(expansionRate < 0.f)
     {
@@ -166,14 +178,14 @@ int City::updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear
     return population;
 }
 
-float City::PoliceDepartment::getConvictionRate(float arrests, float convictions)
+float City::PoliceDepartment::getConvictionRate(float arrests, float convictions) const
 {
     float rate = convictions / arrests;
     std::cout << rate << " is the conviction rate." << std::endl;
     return rate;
 }
 
-void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
+void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining) const
 {
     for (int i = 1; i <= monthsTraining; ++i)
     {
@@ -181,7 +193,7 @@ void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
     }    
 }
 
-void City::PoliceDepartment::aboutPolice()
+void City::PoliceDepartment::aboutPolice() const
 {
     std::cout << "The police have " << this->staff << " staff, and a chief named " << this->chief  << std::endl;
 }
@@ -200,11 +212,11 @@ struct ControlRoom
     bool studioPowerState; 
     std::string name, monitorBrand;
     
-    int  hoursInBudget(int engineerRate, int studioRate, int budget);
-    void seatEngineer(std::string engineerName);
+    int  hoursInBudget(int engineerRate, int studioRate, int budget) const;
+    void seatEngineer(std::string engineerName) const;
     bool switchStudioPower(); 
 
-    void aboutControlRoom();
+    void aboutControlRoom() const;
 
     struct Computer
     {
@@ -219,12 +231,22 @@ struct ControlRoom
         bool powerState = false; 
     
         bool switchOnOff(); 
-        std::string runSoftware(std::string applicationName); 
+        std::string runSoftware(std::string applicationName) const; 
         int hoursTillComputerCrash(bool runningProTools);
 
-        void aboutComputer();
+        void aboutComputer() const;
     };
-        
+    JUCE_LEAK_DETECTOR(ControlRoom)     
+};
+
+struct ControlRoomWrapper
+{
+    ControlRoomWrapper( ControlRoom* ptr ) : pointerToControlRoom( ptr ) {}
+    ~ControlRoomWrapper()
+    {
+        delete pointerToControlRoom;
+    }
+    ControlRoom* pointerToControlRoom = nullptr;
 };
 
 ControlRoom::ControlRoom()
@@ -248,12 +270,12 @@ ControlRoom::Computer::~Computer()
     std::cout << "Computer being deconstructed." << std::endl;
 }
 
-void ControlRoom::aboutControlRoom()
+void ControlRoom::aboutControlRoom() const
 {
     std::cout << "This control room has " << this->numberSeats << " seats." << std::endl;
 }
 
-int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
+int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget) const
 {
     int hours = 0;
     int cost = 0;
@@ -267,7 +289,7 @@ int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
 } 
 
 
-void ControlRoom::seatEngineer(std::string engineerName)
+void ControlRoom::seatEngineer(std::string engineerName) const
 {
     std::cout << "Today we're enjoying the mixing skills of " << engineerName << std::endl;      
 }
@@ -305,7 +327,7 @@ int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
     return hours;
 }
 
-void ControlRoom::Computer::aboutComputer()
+void ControlRoom::Computer::aboutComputer() const
 {
     std::cout << "This computer is made by " << this->brand << std::endl;
 }
@@ -318,7 +340,7 @@ bool ControlRoom::Computer::switchOnOff()
     return powerState;
 }
 
-std::string ControlRoom::Computer::runSoftware(std::string programName)
+std::string ControlRoom::Computer::runSoftware(std::string programName) const
 {
     return programName;
 }
@@ -341,7 +363,7 @@ struct LiveRoom
     bool lightsCurrentState = false; 
     std::string name = "Studio A";
 
-    void aboutLiveRoom();
+    void aboutLiveRoom() const;
 
     struct Musician
     {
@@ -351,16 +373,28 @@ struct LiveRoom
         std::string name, mainInstrument;
         int yearsExperience, hourlyRate;
 
-        void aboutMusician();
-        void callMusician();
-        bool createContract();
-        int totalHoursUnpaid(); 
+        void aboutMusician() const;
+        void callMusician() const;
+        bool createContract() const;
+        int totalHoursUnpaid() const; 
     };
 
     
-    void seatMusician(Musician musicianName, std::string thisName);
+    void seatMusician(Musician musicianName, std::string thisName) const;
     bool switchLights(); 
-    int calculateMusicianFee(int hours, bool receivesPublishingPercentage);
+    int calculateMusicianFee(int hours, bool receivesPublishingPercentage) const;
+
+    JUCE_LEAK_DETECTOR(LiveRoom)   
+};
+
+struct LiveRoomWrapper
+{
+    LiveRoomWrapper( LiveRoom* ptr ) : pointerToLiveRoom( ptr ) {}
+    ~LiveRoomWrapper()
+    {
+        delete pointerToLiveRoom;
+    }
+    LiveRoom* pointerToLiveRoom = nullptr;
 };
 
 LiveRoom::LiveRoom()
@@ -383,12 +417,12 @@ LiveRoom::Musician::~Musician()
     std::cout << "Musician being deconstructed." << std::endl;
 }
 
-void LiveRoom::aboutLiveRoom()
+void LiveRoom::aboutLiveRoom() const
 {
     std::cout << "This live room is called " << this->name << std::endl;
 }
 
-int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
+int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage) const
 {
     int musicianFee = 0;    
     for (int i = 0; i <= hours; ++i)
@@ -410,7 +444,7 @@ int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
     return musicianFee;
 }
 
-void LiveRoom::seatMusician(Musician musicianName, std::string thisName)
+void LiveRoom::seatMusician(Musician musicianName, std::string thisName) const
 {
     musicianName.name = thisName;
     std::cout << "Today we're enjoying the dulcet tones of " << musicianName.name  << std::endl;    
@@ -424,7 +458,7 @@ bool LiveRoom::switchLights()
     return lightsCurrentState;
 }
 
-void LiveRoom::Musician::aboutMusician()
+void LiveRoom::Musician::aboutMusician() const
 {
     std::cout << "This musician is named " << this->name << std::endl;
 }
@@ -444,10 +478,23 @@ struct StudioComplex
     LiveRoom liveRoomA;
     LiveRoom liveRoomB;
 
-    int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours);
-    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate);
-    void placeAdvertisement(std::string text); 
+    int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours) const;
+    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate) const;
+    void placeAdvertisement(std::string text) const; 
+
+    JUCE_LEAK_DETECTOR(StudioComplex)  
 };
+
+struct StudioComplexWrapper
+{
+    StudioComplexWrapper( StudioComplex* ptr ) : pointerToStudioComplex( ptr ) {}
+    ~StudioComplexWrapper()
+    {
+        delete pointerToStudioComplex;
+    }
+    StudioComplex* pointerToStudioComplex = nullptr;
+};
+
 
 StudioComplex::StudioComplex() 
 {
@@ -460,20 +507,20 @@ StudioComplex::~StudioComplex()
     placeAdvertisement("ADVERTISEMENT: STUDIO FOR SALE!!!!");
 }    
 
-int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours)
+int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours) const
 {
     std::cout <<  "Booking " << controlRoom.name << " with " << liveRoom.name << " for " << hours << " hours" << std::endl; 
     return hours;
 }
 
-int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate)
+int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate) const
 {
     int cost = hours * rate;
     std::cout << controlRoom.name << " with " << liveRoom.name << " fee is " << cost << " dollars" << std::endl; 
     return cost;
 }
 
-void StudioComplex::placeAdvertisement(std::string text)
+void StudioComplex::placeAdvertisement(std::string text) const
 {
     std::cout << text << std::endl; 
 }
@@ -496,7 +543,20 @@ struct LargestFiveCities
 
     void setNames(std::string a, std::string b, std::string c, std::string d, std::string e);
     int setPopulations(int a, int b, int c, int d, int e);
+
+    JUCE_LEAK_DETECTOR(StudioComplex)
 };
+
+struct LargestFiveCitiesWrapper
+{
+    LargestFiveCitiesWrapper( LargestFiveCities* ptr ) : pointerToLargestFiveCities( ptr ) {}
+    ~LargestFiveCitiesWrapper()
+    {
+        delete pointerToLargestFiveCities;
+    }
+    LargestFiveCities* pointerToLargestFiveCities = nullptr;
+};
+
 
 LargestFiveCities::LargestFiveCities() 
 {
@@ -550,51 +610,46 @@ int LargestFiveCities::setPopulations(int a, int b, int c, int d, int e)
 
 int main()
 {
-    City toronto;  
-    toronto.expand();
-    toronto.createLaw();
-    toronto.name = "Toronto";
+    CityWrapper toronto( new City() );
+    toronto.pointerToCity->expand();
+    toronto.pointerToCity->createLaw();
+    toronto.pointerToCity->name = "Toronto";
+
     City::PoliceDepartment torontoPoliceDepartment;
     torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
     torontoPoliceDepartment.trainRookies(7, 3);
 
-    std::cout << "The city named " << toronto.name << " has a population of " << toronto.population << std::endl;
-    toronto.aboutCity();
+    std::cout << "The city named " << toronto.pointerToCity->name << " has a population of " << toronto.pointerToCity->population << std::endl;
+    toronto.pointerToCity->aboutCity();
     std::cout << "The police have " << torontoPoliceDepartment.staff << " staff, and a chief named " << torontoPoliceDepartment.chief  << std::endl;
     torontoPoliceDepartment.aboutPolice();
-    
-    
-    ControlRoom factory;    
-    ControlRoom::Computer mainMacintosh;  
-    factory.hoursInBudget(75, 60, 5000);
-    mainMacintosh.hoursTillComputerCrash(true);    
 
-    std::cout << "This control room has " << factory.numberSeats << " seats." << std::endl;
-    factory.aboutControlRoom();
+    ControlRoomWrapper factory(new ControlRoom() );
+    ControlRoom::Computer mainMacintosh; 
+    factory.pointerToControlRoom->hoursInBudget(75, 60, 5000);
+    mainMacintosh.hoursTillComputerCrash(true);  
+    std::cout << "This control room has " << factory.pointerToControlRoom->numberSeats << " seats." << std::endl;
+    factory.pointerToControlRoom->aboutControlRoom();
     std::cout << "This computer is made by " << mainMacintosh.brand << std::endl;
     mainMacintosh.aboutComputer();
 
-    
-    LiveRoom studioA;    
+    LiveRoomWrapper studioA(new LiveRoom() );
     LiveRoom::Musician tony;  
-    studioA.seatMusician(tony, "Tony");
-    studioA.calculateMusicianFee(31, false);
-    studioA.switchLights();
+    studioA.pointerToLiveRoom->seatMusician(tony, "Tony");
+    studioA.pointerToLiveRoom->calculateMusicianFee(31, false);
+    studioA.pointerToLiveRoom->switchLights();
+    std::cout << "This live room is called " << studioA.pointerToLiveRoom->name << std::endl;
+    studioA.pointerToLiveRoom->aboutLiveRoom();
 
-    std::cout << "This live room is called " << studioA.name << std::endl;
-    studioA.aboutLiveRoom();
-    std::cout << "This musician is named " << tony.name << std::endl;
-    tony.aboutMusician();    
+    StudioComplexWrapper olympic( new StudioComplex() );
+    olympic.pointerToStudioComplex->controlRoomB.name = "Control Room B";
+    olympic.pointerToStudioComplex->liveRoomB.name = "Live Room B";
+    olympic.pointerToStudioComplex->bookSession(olympic.pointerToStudioComplex->controlRoomA, olympic.pointerToStudioComplex->liveRoomB, 10);
+    olympic.pointerToStudioComplex->prepareInvoice(olympic.pointerToStudioComplex->controlRoomB, olympic.pointerToStudioComplex->liveRoomA, 10, 76);
 
-    StudioComplex Olympic;
-    Olympic.controlRoomB.name = "Control Room B";
-    Olympic.liveRoomB.name = "Live Room B";
-    Olympic.bookSession(Olympic.controlRoomA, Olympic.liveRoomB, 10);
-    Olympic.prepareInvoice(Olympic.controlRoomB, Olympic.liveRoomA, 10, 76);
-    
-    LargestFiveCities largestCanadianCities;
-    largestCanadianCities.setNames("Vancouver", "Toronto", "Montreal", "Calgary", "Ottawa");
-    largestCanadianCities.setPopulations(2632000, 6313000, 4291732, 1484806, 1488307);
-    
+    LargestFiveCitiesWrapper largestCanadianCities( new LargestFiveCities() ) ;
+    largestCanadianCities.pointerToLargestFiveCities->setNames("Vancouver", "Toronto", "Montreal", "Calgary", "Ottawa");
+    largestCanadianCities.pointerToLargestFiveCities->setPopulations(2632000, 6313000, 4291732, 1484806, 1488307);
+
     std::cout << "good to go!" << std::endl;
 }
