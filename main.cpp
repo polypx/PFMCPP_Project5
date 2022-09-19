@@ -78,9 +78,9 @@ void Axe::aConstMemberFunction() const { }
 
 
 
-
 #include <iostream>
 #include "LeakedObjectDetector.h"
+
 /*
  copied UDT 1:
  */
@@ -117,7 +117,18 @@ struct City
 
         void aboutPolice();
     };
+
     JUCE_LEAK_DETECTOR(City)    
+};
+
+struct CityWrapper
+{
+    CityWrapper( City* ptr ) : pointerToCity( ptr ) {}
+    ~CityWrapper()
+    {
+        delete pointerToCity;
+    }
+    City* pointerToCity = nullptr;
 };
 
 City::City() : name("Montreal"), country("Canada"), population(5000000)
@@ -226,6 +237,16 @@ struct ControlRoom
         void aboutComputer();
     };
     JUCE_LEAK_DETECTOR(ControlRoom)     
+};
+
+struct ControlRoomWrapper
+{
+    ControlRoomWrapper( ControlRoom* ptr ) : pointerToControlRoom( ptr ) {}
+    ~ControlRoomWrapper()
+    {
+        delete pointerToControlRoom;
+    }
+    ControlRoom* pointerToControlRoom = nullptr;
 };
 
 ControlRoom::ControlRoom()
@@ -366,6 +387,16 @@ struct LiveRoom
     JUCE_LEAK_DETECTOR(LiveRoom)   
 };
 
+struct LiveRoomWrapper
+{
+    LiveRoomWrapper( LiveRoom* ptr ) : pointerToLiveRoom( ptr ) {}
+    ~LiveRoomWrapper()
+    {
+        delete pointerToLiveRoom;
+    }
+    LiveRoom* pointerToLiveRoom = nullptr;
+};
+
 LiveRoom::LiveRoom()
 {
     std::cout << "LiveRoom being constructed." << std::endl;
@@ -454,6 +485,17 @@ struct StudioComplex
     JUCE_LEAK_DETECTOR(StudioComplex)  
 };
 
+struct StudioComplexWrapper
+{
+    StudioComplexWrapper( StudioComplex* ptr ) : pointerToStudioComplex( ptr ) {}
+    ~StudioComplexWrapper()
+    {
+        delete pointerToStudioComplex;
+    }
+    StudioComplex* pointerToStudioComplex = nullptr;
+};
+
+
 StudioComplex::StudioComplex() 
 {
     std::cout << "Studio Complex being constructed." << std::endl; 
@@ -504,6 +546,17 @@ struct LargestFiveCities
 
     JUCE_LEAK_DETECTOR(StudioComplex)
 };
+
+struct LargestFiveCitiesWrapper
+{
+    LargestFiveCitiesWrapper( LargestFiveCities* ptr ) : pointerToLargestFiveCities( ptr ) {}
+    ~LargestFiveCitiesWrapper()
+    {
+        delete pointerToLargestFiveCities;
+    }
+    LargestFiveCities* pointerToLargestFiveCities = nullptr;
+};
+
 
 LargestFiveCities::LargestFiveCities() 
 {
@@ -557,51 +610,46 @@ int LargestFiveCities::setPopulations(int a, int b, int c, int d, int e)
 
 int main()
 {
-    City toronto;  
-    toronto.expand();
-    toronto.createLaw();
-    toronto.name = "Toronto";
+    CityWrapper toronto( new City() );
+    toronto.pointerToCity->expand();
+    toronto.pointerToCity->createLaw();
+    toronto.pointerToCity->name = "Toronto";
+
     City::PoliceDepartment torontoPoliceDepartment;
     torontoPoliceDepartment.getConvictionRate(1841.f, 1123.f);
     torontoPoliceDepartment.trainRookies(7, 3);
 
-    std::cout << "The city named " << toronto.name << " has a population of " << toronto.population << std::endl;
-    toronto.aboutCity();
+    std::cout << "The city named " << toronto.pointerToCity->name << " has a population of " << toronto.pointerToCity->population << std::endl;
+    toronto.pointerToCity->aboutCity();
     std::cout << "The police have " << torontoPoliceDepartment.staff << " staff, and a chief named " << torontoPoliceDepartment.chief  << std::endl;
     torontoPoliceDepartment.aboutPolice();
-    
-    
-    ControlRoom factory;    
-    ControlRoom::Computer mainMacintosh;  
-    factory.hoursInBudget(75, 60, 5000);
-    mainMacintosh.hoursTillComputerCrash(true);    
 
-    std::cout << "This control room has " << factory.numberSeats << " seats." << std::endl;
-    factory.aboutControlRoom();
+    ControlRoomWrapper factory(new ControlRoom() );
+    ControlRoom::Computer mainMacintosh; 
+    factory.pointerToControlRoom->hoursInBudget(75, 60, 5000);
+    mainMacintosh.hoursTillComputerCrash(true);  
+    std::cout << "This control room has " << factory.pointerToControlRoom->numberSeats << " seats." << std::endl;
+    factory.pointerToControlRoom->aboutControlRoom();
     std::cout << "This computer is made by " << mainMacintosh.brand << std::endl;
     mainMacintosh.aboutComputer();
 
-    
-    LiveRoom studioA;    
+    LiveRoomWrapper studioA(new LiveRoom() );
     LiveRoom::Musician tony;  
-    studioA.seatMusician(tony, "Tony");
-    studioA.calculateMusicianFee(31, false);
-    studioA.switchLights();
+    studioA.pointerToLiveRoom->seatMusician(tony, "Tony");
+    studioA.pointerToLiveRoom->calculateMusicianFee(31, false);
+    studioA.pointerToLiveRoom->switchLights();
+    std::cout << "This live room is called " << studioA.pointerToLiveRoom->name << std::endl;
+    studioA.pointerToLiveRoom->aboutLiveRoom();
 
-    std::cout << "This live room is called " << studioA.name << std::endl;
-    studioA.aboutLiveRoom();
-    std::cout << "This musician is named " << tony.name << std::endl;
-    tony.aboutMusician();    
+    StudioComplexWrapper olympic( new StudioComplex() );
+    olympic.pointerToStudioComplex->controlRoomB.name = "Control Room B";
+    olympic.pointerToStudioComplex->liveRoomB.name = "Live Room B";
+    olympic.pointerToStudioComplex->bookSession(olympic.pointerToStudioComplex->controlRoomA, olympic.pointerToStudioComplex->liveRoomB, 10);
+    olympic.pointerToStudioComplex->prepareInvoice(olympic.pointerToStudioComplex->controlRoomB, olympic.pointerToStudioComplex->liveRoomA, 10, 76);
 
-    StudioComplex Olympic;
-    Olympic.controlRoomB.name = "Control Room B";
-    Olympic.liveRoomB.name = "Live Room B";
-    Olympic.bookSession(Olympic.controlRoomA, Olympic.liveRoomB, 10);
-    Olympic.prepareInvoice(Olympic.controlRoomB, Olympic.liveRoomA, 10, 76);
-    
-    LargestFiveCities largestCanadianCities;
-    largestCanadianCities.setNames("Vancouver", "Toronto", "Montreal", "Calgary", "Ottawa");
-    largestCanadianCities.setPopulations(2632000, 6313000, 4291732, 1484806, 1488307);
-    
+    LargestFiveCitiesWrapper largestCanadianCities( new LargestFiveCities() ) ;
+    largestCanadianCities.pointerToLargestFiveCities->setNames("Vancouver", "Toronto", "Montreal", "Calgary", "Ottawa");
+    largestCanadianCities.pointerToLargestFiveCities->setPopulations(2632000, 6313000, 4291732, 1484806, 1488307);
+
     std::cout << "good to go!" << std::endl;
 }
