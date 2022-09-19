@@ -100,7 +100,7 @@ struct City
     std::string createLaw(); 
     int updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years);  
 
-    void aboutCity();
+    void aboutCity() const;
 
     struct PoliceDepartment
     {
@@ -111,11 +111,11 @@ struct City
         float crimeRate = 0.f;
         std::string chief = "unnamedPoliceChief";
 
-        float getConvictionRate(float arrests, float convictions);
-        void trainRookies(int rookies, int monthsTraining);
-        int checkStaffCost(int numberStaff, int monthlySalary);
+        float getConvictionRate(float arrests, float convictions) const;
+        void trainRookies(int rookies, int monthsTraining) const;
+        int checkStaffCost(int numberStaff, int monthlySalary) const;
 
-        void aboutPolice();
+        void aboutPolice() const;
     };
 
     JUCE_LEAK_DETECTOR(City)    
@@ -151,12 +151,12 @@ City::PoliceDepartment::~PoliceDepartment()
     std::cout << "PoliceDepartment being deconstructed." << std::endl;
 }
 
-void City::aboutCity()
+void City::aboutCity() const
 {
     std::cout << "The city named " << this->name << " has a population of " << this->population << std::endl;
 }
 
-void City::expand(float expansionRate)
+void City::expand(float expansionRate) 
 {
     if(expansionRate < 0.f)
     {
@@ -178,14 +178,14 @@ int City::updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear
     return population;
 }
 
-float City::PoliceDepartment::getConvictionRate(float arrests, float convictions)
+float City::PoliceDepartment::getConvictionRate(float arrests, float convictions) const
 {
     float rate = convictions / arrests;
     std::cout << rate << " is the conviction rate." << std::endl;
     return rate;
 }
 
-void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
+void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining) const
 {
     for (int i = 1; i <= monthsTraining; ++i)
     {
@@ -193,7 +193,7 @@ void City::PoliceDepartment::trainRookies(int rookies, int monthsTraining)
     }    
 }
 
-void City::PoliceDepartment::aboutPolice()
+void City::PoliceDepartment::aboutPolice() const
 {
     std::cout << "The police have " << this->staff << " staff, and a chief named " << this->chief  << std::endl;
 }
@@ -212,11 +212,11 @@ struct ControlRoom
     bool studioPowerState; 
     std::string name, monitorBrand;
     
-    int  hoursInBudget(int engineerRate, int studioRate, int budget);
-    void seatEngineer(std::string engineerName);
+    int  hoursInBudget(int engineerRate, int studioRate, int budget) const;
+    void seatEngineer(std::string engineerName) const;
     bool switchStudioPower(); 
 
-    void aboutControlRoom();
+    void aboutControlRoom() const;
 
     struct Computer
     {
@@ -231,10 +231,10 @@ struct ControlRoom
         bool powerState = false; 
     
         bool switchOnOff(); 
-        std::string runSoftware(std::string applicationName); 
+        std::string runSoftware(std::string applicationName) const; 
         int hoursTillComputerCrash(bool runningProTools);
 
-        void aboutComputer();
+        void aboutComputer() const;
     };
     JUCE_LEAK_DETECTOR(ControlRoom)     
 };
@@ -270,12 +270,12 @@ ControlRoom::Computer::~Computer()
     std::cout << "Computer being deconstructed." << std::endl;
 }
 
-void ControlRoom::aboutControlRoom()
+void ControlRoom::aboutControlRoom() const
 {
     std::cout << "This control room has " << this->numberSeats << " seats." << std::endl;
 }
 
-int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
+int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget) const
 {
     int hours = 0;
     int cost = 0;
@@ -289,7 +289,7 @@ int ControlRoom::hoursInBudget(int engineerRate, int studioRate, int budget)
 } 
 
 
-void ControlRoom::seatEngineer(std::string engineerName)
+void ControlRoom::seatEngineer(std::string engineerName) const
 {
     std::cout << "Today we're enjoying the mixing skills of " << engineerName << std::endl;      
 }
@@ -327,7 +327,7 @@ int ControlRoom::Computer::hoursTillComputerCrash(bool runningProTools)
     return hours;
 }
 
-void ControlRoom::Computer::aboutComputer()
+void ControlRoom::Computer::aboutComputer() const
 {
     std::cout << "This computer is made by " << this->brand << std::endl;
 }
@@ -340,7 +340,7 @@ bool ControlRoom::Computer::switchOnOff()
     return powerState;
 }
 
-std::string ControlRoom::Computer::runSoftware(std::string programName)
+std::string ControlRoom::Computer::runSoftware(std::string programName) const
 {
     return programName;
 }
@@ -363,7 +363,7 @@ struct LiveRoom
     bool lightsCurrentState = false; 
     std::string name = "Studio A";
 
-    void aboutLiveRoom();
+    void aboutLiveRoom() const;
 
     struct Musician
     {
@@ -373,16 +373,16 @@ struct LiveRoom
         std::string name, mainInstrument;
         int yearsExperience, hourlyRate;
 
-        void aboutMusician();
-        void callMusician();
-        bool createContract();
-        int totalHoursUnpaid(); 
+        void aboutMusician() const;
+        void callMusician() const;
+        bool createContract() const;
+        int totalHoursUnpaid() const; 
     };
 
     
-    void seatMusician(Musician musicianName, std::string thisName);
+    void seatMusician(Musician musicianName, std::string thisName) const;
     bool switchLights(); 
-    int calculateMusicianFee(int hours, bool receivesPublishingPercentage);
+    int calculateMusicianFee(int hours, bool receivesPublishingPercentage) const;
 
     JUCE_LEAK_DETECTOR(LiveRoom)   
 };
@@ -417,12 +417,12 @@ LiveRoom::Musician::~Musician()
     std::cout << "Musician being deconstructed." << std::endl;
 }
 
-void LiveRoom::aboutLiveRoom()
+void LiveRoom::aboutLiveRoom() const
 {
     std::cout << "This live room is called " << this->name << std::endl;
 }
 
-int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
+int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage) const
 {
     int musicianFee = 0;    
     for (int i = 0; i <= hours; ++i)
@@ -444,7 +444,7 @@ int LiveRoom::calculateMusicianFee(int hours, bool receivesPublishingPercentage)
     return musicianFee;
 }
 
-void LiveRoom::seatMusician(Musician musicianName, std::string thisName)
+void LiveRoom::seatMusician(Musician musicianName, std::string thisName) const
 {
     musicianName.name = thisName;
     std::cout << "Today we're enjoying the dulcet tones of " << musicianName.name  << std::endl;    
@@ -458,7 +458,7 @@ bool LiveRoom::switchLights()
     return lightsCurrentState;
 }
 
-void LiveRoom::Musician::aboutMusician()
+void LiveRoom::Musician::aboutMusician() const
 {
     std::cout << "This musician is named " << this->name << std::endl;
 }
@@ -478,9 +478,9 @@ struct StudioComplex
     LiveRoom liveRoomA;
     LiveRoom liveRoomB;
 
-    int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours);
-    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate);
-    void placeAdvertisement(std::string text); 
+    int bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours) const;
+    int prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate) const;
+    void placeAdvertisement(std::string text) const; 
 
     JUCE_LEAK_DETECTOR(StudioComplex)  
 };
@@ -507,20 +507,20 @@ StudioComplex::~StudioComplex()
     placeAdvertisement("ADVERTISEMENT: STUDIO FOR SALE!!!!");
 }    
 
-int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours)
+int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours) const
 {
     std::cout <<  "Booking " << controlRoom.name << " with " << liveRoom.name << " for " << hours << " hours" << std::endl; 
     return hours;
 }
 
-int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate)
+int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate) const
 {
     int cost = hours * rate;
     std::cout << controlRoom.name << " with " << liveRoom.name << " fee is " << cost << " dollars" << std::endl; 
     return cost;
 }
 
-void StudioComplex::placeAdvertisement(std::string text)
+void StudioComplex::placeAdvertisement(std::string text) const
 {
     std::cout << text << std::endl; 
 }
