@@ -14,8 +14,8 @@ struct LargestFiveCities
     City cityD;
     City cityE;
 
-    void setNames(std::string a, std::string b, std::string c, std::string d, std::string e);
-    int setPopulations(int a, int b, int c, int d, int e);
+    void setNames(const std::string a, const std::string b, const std::string c, const std::string d, const std::string e);
+    int setPopulations(const int a, int b, const int c, const int d, const int e);
 
     JUCE_LEAK_DETECTOR(LargestFiveCities)
 };

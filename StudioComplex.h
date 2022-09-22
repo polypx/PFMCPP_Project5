@@ -13,9 +13,9 @@ struct StudioComplex
     LiveRoom liveRoomA;
     LiveRoom liveRoomB;
 
-    int bookSession(const ControlRoom& controlRoom, const LiveRoom& liveRoom, int hours) const;
-    int prepareInvoice(const ControlRoom& controlRoom, const LiveRoom& liveRoom, int hours, int rate) const;
-    void placeAdvertisement(std::string text) const; 
+    int bookSession(const ControlRoom& controlRoom, const LiveRoom& liveRoom, const int hours) const;
+    int prepareInvoice(const ControlRoom& controlRoom, const LiveRoom& liveRoom, const int hours, int rate) const;
+    void placeAdvertisement(const std::string text) const; 
 
     JUCE_LEAK_DETECTOR(StudioComplex)  
 };

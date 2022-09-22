@@ -11,8 +11,8 @@ struct ControlRoom
     bool studioPowerState; 
     std::string name, monitorBrand;
     
-    int  hoursInBudget(int engineerRate, int studioRate, int budget) const;
-    void seatEngineer(std::string engineerName) const;
+    int  hoursInBudget(const int engineerRate, const int studioRate, const int budget) const;
+    void seatEngineer(const std::string engineerName) const;
     bool switchStudioPower(); 
 
     void aboutControlRoom() const;
@@ -30,8 +30,8 @@ struct ControlRoom
         bool powerState = false; 
     
         bool switchOnOff(); 
-        std::string runSoftware(std::string applicationName) const; 
-        int hoursTillComputerCrash(bool runningProTools);
+        std::string runSoftware(const std::string applicationName) const; 
+        int hoursTillComputerCrash(const bool runningProTools);
 
         void aboutComputer() const;
     };

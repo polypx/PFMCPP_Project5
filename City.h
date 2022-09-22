@@ -13,9 +13,9 @@ struct City
     float latitude = 43.6532f;    
     float longitude = -79.3470f;  
 
-    void expand(float expansionRate = 1.1f);
+    void expand(const float expansionRate = 1.1f);
     std::string createLaw() const; 
-    int updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years);  
+    int updatePopulation(const int immigrantsYear, const int emigrantsYear, const int birthsYear, const int deathsYear, const int years);  
 
     void aboutCity() const;
 
@@ -28,9 +28,9 @@ struct City
         float crimeRate = 0.f;
         std::string chief = "unnamedPoliceChief";
 
-        float getConvictionRate(float arrests, float convictions) const;
-        void trainRookies(int rookies, int monthsTraining) const;
-        int checkStaffCost(int numberStaff, int monthlySalary) const;
+        float getConvictionRate(const float arrests, const float convictions) const;
+        void trainRookies(const int rookies, const int monthsTraining) const;
+        int checkStaffCost(const int numberStaff, const int monthlySalary) const;
 
         void aboutPolice() const;
     };

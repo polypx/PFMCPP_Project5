@@ -32,9 +32,9 @@ struct LiveRoom
     };
 
     
-    void seatMusician(Musician musicianName, std::string thisName) const;
+    void seatMusician(const Musician musicianName, const std::string thisName) const;
     bool switchLights(); 
-    int calculateMusicianFee(int hours, bool receivesPublishingPercentage) const;
+    int calculateMusicianFee(const int hours, const bool receivesPublishingPercentage) const;
 
     JUCE_LEAK_DETECTOR(LiveRoom)   
 };
