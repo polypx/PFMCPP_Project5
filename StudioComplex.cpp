@@ -11,13 +11,13 @@ StudioComplex::~StudioComplex()
     placeAdvertisement("ADVERTISEMENT: STUDIO FOR SALE!!!!");
 }    
 
-int StudioComplex::bookSession(ControlRoom controlRoom, LiveRoom liveRoom, int hours) const
+int StudioComplex::bookSession(const ControlRoom& controlRoom, const LiveRoom& liveRoom, int hours) const
 {
     std::cout <<  "Booking " << controlRoom.name << " with " << liveRoom.name << " for " << hours << " hours" << std::endl; 
     return hours;
 }
 
-int StudioComplex::prepareInvoice(ControlRoom controlRoom, LiveRoom liveRoom, int hours, int rate) const
+int StudioComplex::prepareInvoice(const ControlRoom& controlRoom, const LiveRoom& liveRoom, int hours, int rate) const
 {
     int cost = hours * rate;
     std::cout << controlRoom.name << " with " << liveRoom.name << " fee is " << cost << " dollars" << std::endl; 

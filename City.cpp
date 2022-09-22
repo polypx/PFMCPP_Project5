@@ -35,7 +35,7 @@ void City::expand(float expansionRate)
     } 
 }
 
-std::string City::createLaw()
+std::string City::createLaw() const
 {
   return newLawName;  
 }

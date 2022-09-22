@@ -14,7 +14,7 @@ struct City
     float longitude = -79.3470f;  
 
     void expand(float expansionRate = 1.1f);
-    std::string createLaw(); 
+    std::string createLaw() const; 
     int updatePopulation(int immigrantsYear, int emigrantsYear, int birthsYear, int deathsYear, int years);  
 
     void aboutCity() const;
