@@ -1,4 +1,8 @@
 #include "Wrappers.h"
+#include "City.h"
+#include "ControlRoom.h"
+#include "StudioComplex.h"
+#include "LargestFiveCities.h"
 
 CityWrapper::CityWrapper( City* ptr ) : pointerToCity( ptr ) {} 
 CityWrapper::~CityWrapper()

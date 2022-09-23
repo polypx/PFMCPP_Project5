@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ControlRoom.h"
 
 ControlRoom::ControlRoom()

@@ -1,10 +1,9 @@
 #pragma once
-
-#include "City.h"
-#include "ControlRoom.h"
-#include "LiveRoom.h"
-#include "StudioComplex.h"
-#include "LargestFiveCities.h"
+struct City;
+struct ControlRoom;
+struct LiveRoom;
+struct StudioComplex;
+struct LargestFiveCities;
 
 struct CityWrapper
 {

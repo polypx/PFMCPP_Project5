@@ -1,3 +1,4 @@
+#include <iostream>
 #include "LiveRoom.h"
 
 LiveRoom::LiveRoom()
